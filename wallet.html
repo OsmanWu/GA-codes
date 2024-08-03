@@ -1,11 +1,13 @@
-//I declare that this code was written by Wu Jia Yang Osman
-//I will not copy or allow others to copy my code. 
-//I understand that copying code is considered as plagiarism.
+ <!-- 
+    I declare that this code was written by Wu Jia Yang Osman
+    I will not copy or allow others to copy my code. 
+    I understand that copying code is considered as plagiarism.
 
-//Student Name: Wu Jia Yang Osman
-//Student ID:23007753
-//Class:W66N
-//Date/Time Last modified: 4/8/2024/3.44AM
+    Student Name: Wu Jia Yang Osman
+    Student ID: 23007753
+    Class: W66N
+    Date/Time Last modified: 4/8/2024/4.30AM 
+    -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +26,7 @@
             const balance = localStorage.getItem('balance') || '0';
             document.getElementById('balance').textContent = `Your Balance: $${parseFloat(balance).toFixed(2)}`;
         }
-
+            
         function addFunds() {
             const amount = prompt("Enter amount to add:");
             const parsedAmount = parseFloat(amount);
@@ -134,7 +136,6 @@
                     <th>Amount</th>
                 </tr>
                 <tbody id="transactions">
-                 <!-- Transactions will be loaded here -->
                 </tbody>
             </table>
         </div>
