@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign-up - SwiftSend</title>
+<link rel="stylesheet" href="style.css">
+<script>
+    function handleSignUp(event) {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+        window.location.href = 'wallet.html'; // Redirect to wallet page
+    }
+</script>
+</head>
+<body>
+    <header>SwiftSend</header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Our Services</a>
+        <a href="faq.html">FAQs</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Create Your Account</h2>
+    <form onsubmit="handleSignUp(event)">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required><br>
+        <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login here</a>.</p>
+</main>
+
+<footer>
+    <p>© 2024 SwiftSend. All rights reserved.</p>
+</footer>
+</body>
+</html>

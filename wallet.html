@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - SwiftSend</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            displayBalance();
+            displayTransactions();
+        });
+
+        function displayBalance() {
+            const balance = localStorage.getItem('balance') || '0';
+            document.getElementById('balance').textContent = `Your Balance: $${parseFloat(balance).toFixed(2)}`;
+        }
+
+        function addFunds() {
+            const amount = prompt("Enter amount to add:");
+            const parsedAmount = parseFloat(amount);
+            if (!isNaN(parsedAmount) && parsedAmount > 0) {
+                updateBalance(parsedAmount);
+                addTransaction(parsedAmount, "Funds Added", true); // True indicates a positive transaction
+            } else {
+                alert("Please enter a valid amount.");
+            }
+        }
+
+        function transferFunds() {
+            const recipient = prompt("Enter recipient's name:");
+            const country = prompt("Enter the country to which the funds are being transferred:");
+            if (!recipient || !country) {
+                alert("You must enter both recipient's name and country.");
+                return;
+            }
+            const amount = prompt("Enter amount to transfer:");
+            const parsedAmount = parseFloat(amount);
+            if (!isNaN(parsedAmount) && parsedAmount > 0) {
+                const currentBalance = parseFloat(localStorage.getItem('balance') || '0');
+                if (currentBalance >= parsedAmount) {
+                    updateBalance(-parsedAmount);
+                    addTransaction(parsedAmount, `Transferred to ${recipient} in ${country}`, false); // False indicates a negative transaction
+                } else {
+                    alert("Insufficient funds.");
+                }
+            } else {
+                alert("Please enter a valid amount.");
+            }
+        }
+
+        function receiveFunds() {
+            const sender = prompt("Enter sender's name:");
+            const country = prompt("Enter the country from which the funds are being received:");
+            if (!sender || !country) {
+                alert("You must enter both sender's name and country.");
+                return;
+            }
+            const amount = prompt("Enter amount to receive:");
+            const parsedAmount = parseFloat(amount);
+            if (!isNaN(parsedAmount) && parsedAmount > 0) {
+                updateBalance(parsedAmount);
+                addTransaction(parsedAmount, `Received from ${sender} in ${country}`, true);
+            } else {
+                alert("Please enter a valid amount.");
+            }
+        }
+
+        function updateBalance(amount) {
+            let currentBalance = parseFloat(localStorage.getItem('balance') || '0');
+            currentBalance += amount;
+            localStorage.setItem('balance', currentBalance);
+            displayBalance();
+        }
+
+        function addTransaction(amount, description, isPositive) {
+            let transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+            const sign = isPositive ? '+' : '-';
+            transactions.push({
+                date: new Date().toLocaleDateString("en-US"),
+                description: description,
+                amount: `${sign}$${Math.abs(amount).toFixed(2)}`
+            });
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            displayTransactions();
+        }
+
+        function displayTransactions() {
+            const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+            const tableBody = document.getElementById('transactions');
+            tableBody.innerHTML = '';
+            transactions.forEach(transaction => {
+                const row = `<tr><td>${transaction.date}</td><td>${transaction.description}</td><td>${transaction.amount}</td></tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>SwiftSend</header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Our Services</a>
+        <a href="faq.html">FAQs</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="wallet.html">Wallet</a>
+    </nav>
+    <main>
+        <div>
+            <h2 id="balance">Your Balance: $0</h2>
+            <button onclick="addFunds()" style="background-color: #800080; color: white; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer;">Add Funds</button>
+            <button onclick="transferFunds()" style="background-color: #800080; color: white; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer;">Transfer Funds</button>
+            <button onclick="receiveFunds()" style="background-color: #4CAF50; color: white; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer;">Receive Funds</button>
+        </div>
+        
+        <div>
+            <h3>Recent Transactions</h3>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+                <tbody id="transactions">
+                 <!-- Transactions will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div>
+            <button onclick="window.location.href='card-details.html'" style="background-color: #800080; color: white; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer;">Manage Card Details</button>
+        </div>
+    </main>
+    <footer>
+        <p>Contact Us | Privacy Policy</p>
+    </footer>
+</body>
+</html>

@@ -5,6 +5,90 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Card Details - SwiftSend</title>
 <link rel="stylesheet" href="style.css">
+<script>
+    let currentEditIndex = null; // Track which card is being edited
+
+    document.addEventListener("DOMContentLoaded", function() {
+        displayCards();
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            if (currentEditIndex === null) {
+                saveNewCardDetails();
+            } else {
+                updateCardDetails();
+            }
+        });
+    });
+
+    function saveNewCardDetails() {
+        const cardDetails = getCardDetailsFromForm();
+        let cards = JSON.parse(localStorage.getItem('cards')) || [];
+        cards.push(cardDetails);
+        localStorage.setItem('cards', JSON.stringify(cards));
+        displayCards();
+        document.querySelector('form').reset(); // Reset form fields after submission
+        alert('Card details saved successfully!');
+    }
+
+    function updateCardDetails() {
+        const cards = JSON.parse(localStorage.getItem('cards')) || [];
+        cards[currentEditIndex] = getCardDetailsFromForm();
+        localStorage.setItem('cards', JSON.stringify(cards));
+        displayCards();
+        document.querySelector('form').reset();
+        alert('Card details updated successfully!');
+        currentEditIndex = null; // Reset index after update
+    }
+
+    function deleteCard(index) {
+        let cards = JSON.parse(localStorage.getItem('cards'));
+        cards.splice(index, 1);
+        localStorage.setItem('cards', JSON.stringify(cards));
+        displayCards();
+        document.querySelector('form').reset();
+        alert('Card deleted successfully!');
+        currentEditIndex = null; // Reset index after deletion
+    }
+
+    function editCard(index) {
+        const cards = JSON.parse(localStorage.getItem('cards'));
+        const card = cards[index];
+        setCardDetailsToForm(card);
+        currentEditIndex = index; // Set index to current editing card
+    }
+
+    function getCardDetailsFromForm() {
+        return {
+            cardNumber: document.getElementById('cardNumber').value,
+            expDate: document.getElementById('expDate').value,
+            cvv: document.getElementById('cvv').value,
+            cardholderName: document.getElementById('cardholderName').value,
+            billingAddress: document.getElementById('billingAddress').value
+        };
+    }
+
+    function setCardDetailsToForm(card) {
+        document.getElementById('cardNumber').value = card.cardNumber;
+        document.getElementById('expDate').value = card.expDate;
+        document.getElementById('cvv').value = card.cvv;
+        document.getElementById('cardholderName').value = card.cardholderName;
+        document.getElementById('billingAddress').value = card.billingAddress;
+    }
+
+    function displayCards() {
+        const cards = JSON.parse(localStorage.getItem('cards')) || [];
+        const cardsList = document.getElementById('cardsList');
+        cardsList.innerHTML = ''; // Clear previous entries
+        cards.forEach((card, index) => {
+            const cardEntry = `<div>
+                Card ${index + 1}: ${card.cardNumber} - Expires on ${card.expDate}
+                <button onclick="editCard(${index})">Edit</button>
+                <button onclick="deleteCard(${index})">Delete</button>
+            </div>`;
+            cardsList.innerHTML += cardEntry;
+        });
+    }
+</script>
 </head>
 <body>
     <header>SwiftSend</header>
@@ -12,9 +96,10 @@
         <a href="index.html">Home</a>
         <a href="about.html">About Us</a>
         <a href="services.html">Our Services</a>
-        <a href="card-details.html">Card Details</a>
         <a href="faq.html">FAQs</a>
         <a href="contact.html">Contact Us</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
     </nav>
     <div class="content">
         <h1>Card Details</h1>
@@ -31,6 +116,7 @@
             <input type="text" id="billingAddress" name="billingAddress" placeholder="Address"><br>
             <button type="submit">Save</button>
         </form>
+        <div id="cardsList"></div>
     </div>
 </body>
 </html>
