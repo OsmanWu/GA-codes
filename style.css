@@ -9,7 +9,6 @@ Class: W66N
 Date/Time Last modified: 4/8/2024/4.30AM 
 */
 
-/* General body and html styles */
 body, html {
     margin: 0;
     padding: 0;
@@ -19,7 +18,7 @@ body, html {
 
 /* Header styles */
 header {
-    background-color: #5a2d82; /* Dark purple */
+    background-color: #5a2d82; 
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -29,7 +28,7 @@ header {
 
 /* Navigation bar styles */
 nav {
-    background-color: #4a1c6b; /* Slightly darker purple */
+    background-color: #4a1c6b; 
     overflow: hidden;
 }
 
@@ -44,7 +43,7 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #321345; /* Darkest purple */
+    background-color: #321345;
     transition: background-color 0.3s;
 }
 
@@ -52,12 +51,12 @@ nav a:hover {
 .content {
     padding: 20px;
     margin-top: 20px;
-    background-color: #ffffff; /* White background for content */
-    color: #333; /* Dark grey text */
+    background-color: white;
+    color: black; 
 }
 
 h1, h2 {
-    color: #5a2d82; /* Dark purple text for headings */
+    color: dark purple; /* Dark purple text for headings */
 }
 
 button {
@@ -85,10 +84,9 @@ form input[type="text"], form input[type="email"] {
     margin: 10px 0;
     display: block;
     width: 90%;
-    border: 1px solid #ccc;
+    border: 1px solid lightgrey;
 }
 
-/* Utility classes for layout and spacing */
 ul {
     list-style-type: none; /* Removes default list styling */
     padding: 0;
