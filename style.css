@@ -73,7 +73,7 @@ button {
 }
 
 button:hover {
-    background-color: #d6a8ff; /* Lighter purple when hovered */
+    background-color: #d6a8ff; /* Lighter purple */
 }
 
 form label {
