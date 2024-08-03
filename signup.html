@@ -8,6 +8,10 @@
 <script>
     function handleSignUp(event) {
         event.preventDefault();
+        
+        // Clear local storage to reset wallet for new user
+        localStorage.clear();
+
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
